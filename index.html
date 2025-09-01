@@ -3,285 +3,381 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>インドの神々ギャラリー（画像・要点）</title>
+<title>インドの神々ギャラリー</title>
 <style>
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", Arial, sans-serif; margin: 0; background:#0b0c10; color:#e6e6e6; }
   header { padding: 28px 20px; text-align:center; background: linear-gradient(135deg,#111827,#1f2937); box-shadow: 0 2px 12px rgba(0,0,0,.25); }
-  header h1 { margin: 0 0 8px; font-size: 28px; }
-  header p { margin: 0; color:#aab3c5; font-size:14px; }
+  header h1 { margin: 0; font-size: 28px; }
   .grid { display:grid; gap:18px; padding:20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   .card { background:#111827; border:1px solid #1f2937; border-radius:16px; overflow:hidden; box-shadow: 0 6px 16px rgba(0,0,0,.25);} 
   .imgwrap { aspect-ratio: 4/3; background:#0f172a; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-  .imgwrap img { width:100%; height:100%; object-fit:cover; }
+  .imgwrap img { width:100%; height:100%; object-fit:cover; cursor:pointer; }
   .content { padding:14px 16px 16px; }
-  .name { font-weight:700; font-size:18px; margin: 0 0 2px; }
+  .name { font-weight:700; font-size:18px; margin: 0 0 4px; }
   .iast { font-size:13px; color:#b6c2d6; margin:0 0 8px; }
   .row { margin: 6px 0; font-size:14px; line-height:1.55; }
   .row strong { color:#d1d5db; font-weight:600; }
-  .cap { font-size:12px; color:#91a0b6; margin-top:8px; }
   footer { padding: 18px 20px 28px; color:#9aa6b2; font-size:12px; text-align:center; }
-  a { color:#93c5fd; text-decoration: none; }
-  a:hover { text-decoration: underline; }
 </style>
+<script>
+function expandImage(src) {
+  const win = window.open();
+  win.document.write('<img src="'+src+'" style="width:100%">');
+}
+</script>
 </head>
 <body>
 <header>
-  <h1>インドの神々ギャラリー（画像・キーワード・逸話）</h1>
-  <p>各カード：日本語名、<u>IAST（カナなし）</u>、キーワード（日／梵）、主要な逸話。画像はWikimedia Commons等の公開画像を参照。</p>
+  <h1>インドの神々ギャラリー</h1>
 </header>
 
 <section class="grid">
+
   <!-- Vishnu -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vishnu_riding_Garuda.jpg" alt="Vishnu riding Garuda" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vishnu_riding_Garuda.jpg" alt="Vishnu riding Garuda" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ヴィシュヌ</p>
-      <p class="iast">Viṣṇu（別称：Nārāyaṇa, Hari）</p>
-      <p class="row"><strong>キーワード（日）:</strong> 維持・保護、アヴァターラ、ダルマ</p>
-      <p class="row"><strong>キーワード（梵）:</strong> sthiti, avatāra（アヴァターラ）, dharma（ダルマ）</p>
-      <p class="row"><strong>逸話:</strong> 秩序（ダルマ）を守るため、ラーマやクリシュナ等の化身として降臨。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="iast">Viṣṇu（Nārāyaṇa, Hari）</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>維持・保護（スティティ） — sthiti</li>
+        <li>世界秩序（ダルマ） — dharma</li>
+        <li>化身（アヴァターラ） — avatāra</li>
+        <li>至高の存在（ナーラーヤナ） — Nārāyaṇa</li>
+        <li>慈悲・恩寵（アヌグラハ） — anugraha</li>
+        <li>宇宙の支え（ハリ） — Hari</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 秩序を守るために様々なアヴァターラとして降臨。ラーマやクリシュナもその化身。</p>
     </div>
   </article>
 
-  <!-- Shiva Nataraja -->
+  <!-- Shiva (Nataraja) -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Nataraja%2C_Tamil_Nadu%2C_India%2C_Chola_dynasty%2C_1000s_AD%2C_bronze_-_Dallas_Museum_of_Art_-_DSC05064.jpg" alt="Shiva as Nataraja" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Nataraja%2C_Tamil_Nadu%2C_India%2C_Chola_dynasty%2C_1000s_AD%2C_bronze_-_Dallas_Museum_of_Art_-_DSC05064.jpg" alt="Shiva as Nataraja" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">シヴァ（ナタラージャ）</p>
       <p class="iast">Śiva / Naṭarāja</p>
-      <p class="row"><strong>キーワード（日）:</strong> 破壊と再生、宇宙の舞踏</p>
-      <p class="row"><strong>キーワード（梵）:</strong> saṃhāra, tāṇḍava（タンダヴァ）</p>
-      <p class="row"><strong>逸話:</strong> 宇宙の循環を舞踏（タンダヴァ）で表す姿で崇敬される。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>破壊と再生（サンハーラ） — saṃhāra</li>
+        <li>宇宙舞踏（タンダヴァ） — tāṇḍava</li>
+        <li>第三の目（トリネートラ） — trinetra</li>
+        <li>苦行（タパス） — tapas</li>
+        <li>創造と破壊の統合（ヨーガ） — yoga</li>
+        <li>シヴァ・リンガ崇拝（リンガ） — liṅga</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 宇宙の循環を舞踏で体現する神。破壊と再生を同時に司る。</p>
     </div>
   </article>
 
   <!-- Brahma -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Brahma_Statue_in_Prambanan.jpg" alt="Brahma four-faced statue" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Brahma_Statue_in_Prambanan.jpg" alt="Brahma four-faced statue" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ブラフマー</p>
       <p class="iast">Brahmā</p>
-      <p class="row"><strong>キーワード（日）:</strong> 創造神、四面</p>
-      <p class="row"><strong>キーワード（梵）:</strong> sṛṣṭi, caturmukha（チャトゥルムカ）</p>
-      <p class="row"><strong>逸話:</strong> 宇宙創造を担うトリムールティの一柱。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>創造神（スリシュティ） — sṛṣṭi</li>
+        <li>四つの顔（チャトゥルムカ） — caturmukha</li>
+        <li>ヴェーダの保持者（ヴェーダ） — Veda</li>
+        <li>宇宙卵からの誕生（ヒラニヤガルバ） — hiraṇyagarbha</li>
+        <li>時間の始まり（カーラ） — kāla</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 宇宙を創造する神。ヴィシュヌとシヴァとともにトリムールティを構成する。</p>
     </div>
   </article>
 
   <!-- Lakshmi -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Lakshmi_Lustrated_by_Elephants_%28Gaja-Lakshmi%29_LACMA_M.74.40.1_%281_of_5%29.jpg" alt="Gaja-Lakshmi" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Lakshmi_Lustrated_by_Elephants_%28Gaja-Lakshmi%29_LACMA_M.74.40.1_%281_of_5%29.jpg" alt="Gaja-Lakshmi" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ラクシュミー</p>
-      <p class="iast">Lakṣmī（別称：Śrī）</p>
-      <p class="row"><strong>キーワード（日）:</strong> 富・吉祥・繁栄</p>
-      <p class="row"><strong>キーワード（梵）:</strong> śrī, aiśvarya（アイシュヴァリヤ）, dhana（ダナ）</p>
-      <p class="row"><strong>逸話:</strong> 蓮に座し、象の灌頂を受ける吉祥の女神。ヴィシュヌの配偶神。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="iast">Lakṣmī（Śrī）</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>富と繁栄（ダナ） — dhana</li>
+        <li>吉祥（シュリー） — śrī</li>
+        <li>幸運（サウバーハギャ） — saubhāgya</li>
+        <li>権勢（アイシュヴァリヤ） — aiśvarya</li>
+        <li>安寧（クシェーマ） — kṣema</li>
+        <li>光輝（テージャス） — tejas</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> ヴィシュヌの配偶神として知られ、豊かさと幸運を授ける女神。</p>
     </div>
   </article>
 
   <!-- Sarasvati -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Goddess_Saraswati_holding_a_veena_03.jpg" alt="Sarasvati with veena" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Goddess_Saraswati_holding_a_veena_03.jpg" alt="Sarasvati with veena" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">サラスヴァティー</p>
       <p class="iast">Sarasvatī</p>
-      <p class="row"><strong>キーワード（日）:</strong> 学問・芸術・言語</p>
-      <p class="row"><strong>キーワード（梵）:</strong> vidyā, vāk（ヴァーク）, vīṇā（ヴィーナー）</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>学問（ヴィディヤー） — vidyā</li>
+        <li>言語（ヴァーク） — vāk</li>
+        <li>音楽（ヴィーナー） — vīṇā</li>
+        <li>芸術（カラー） — kalā</li>
+        <li>智慧（プラジュニャー） — prajñā</li>
+        <li>清浄（シュッチ） — śuci</li>
+      </ul>
       <p class="row"><strong>逸話:</strong> 元は聖河の人格神。のち学芸と言語の女神として信仰される。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
     </div>
   </article>
 
   <!-- Durga -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Durga_-_Mahishasurmardini.jpg" alt="Durga slaying Mahishasura" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Durga_-_Mahishasurmardini.jpg" alt="Durga slaying Mahishasura" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ドゥルガー（マヒシャースラマルディニー）</p>
       <p class="iast">Durgā / Mahiṣāsuramardinī</p>
-      <p class="row"><strong>キーワード（日）:</strong> 悪を屠る女神</p>
-      <p class="row"><strong>キーワード（梵）:</strong> śakti, asura-vadha（アスラ・ヴァダ）</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>悪魔討伐（アスラ・ヴァダ） — asura-vadha</li>
+        <li>力（シャクティ） — śakti</li>
+        <li>勝利（ヴィジャヤ） — vijaya</li>
+        <li>母性（アンバ） — ambā</li>
+        <li>守護（ラクシャー） — rakṣā</li>
+        <li>獅子騎乗（シンハヴァーヒニー） — siṃhavāhinī</li>
+      </ul>
       <p class="row"><strong>逸話:</strong> 水牛魔王マヒシャースラを討伐する英雄女神。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
     </div>
   </article>
 
   <!-- Kali -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kali_by_Raja_Ravi_Varma.jpg" alt="Kali by Raja Ravi Varma" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kali_by_Raja_Ravi_Varma.jpg" alt="Kali by Raja Ravi Varma" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">カーリー</p>
       <p class="iast">Kālī</p>
-      <p class="row"><strong>キーワード（日）:</strong> 時・死・破壊的力</p>
-      <p class="row"><strong>キーワード（梵）:</strong> kāla, mṛtyu（ムリトゥ）, śakti（シャクティ）</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>時（カーラ） — kāla</li>
+        <li>死（ムリトゥ） — mṛtyu</li>
+        <li>破壊（ヴィナーシャ） — vināśa</li>
+        <li>力（シャクティ） — śakti</li>
+        <li>恐怖（バヤ） — bhaya</li>
+        <li>解脱（モークシャ） — mokṣa</li>
+      </ul>
       <p class="row"><strong>逸話:</strong> 忿怒相で悪を滅ぼす。しばしばシヴァの上に立つ像で表される。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
     </div>
   </article>
 
   <!-- Ganesha -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganesha_with_mouse01.jpg" alt="Ganesha with mouse" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganesha_with_mouse01.jpg" alt="Ganesha with mouse" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ガネーシャ</p>
-      <p class="iast">Gaṇeśa（別称：Gaṇapati, Vināyaka）</p>
-      <p class="row"><strong>キーワード（日）:</strong> 障害除去、始まり、知恵</p>
-      <p class="row"><strong>キーワード（梵）:</strong> Vighneśvara, buddhi（ブッディ）</p>
-      <p class="row"><strong>逸話:</strong> 何事もはじめに祈られる神。乗物は鼠。祭礼ガネーシュ・チャトゥルティが有名。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
-    </div>
-  </article>
-
-  <!-- Karttikeya -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Karttikeya%2C_God_of_War%2C_Seated_on_a_Peacock.jpg" alt="Karttikeya on peacock" /></div>
-    <div class="content">
-      <p class="name">スカンダ（カルッティケーヤ／ムルガン）</p>
-      <p class="iast">Kārttikeya（Skanda, Murugan）</p>
-      <p class="row"><strong>キーワード（日）:</strong> 戦の神、孔雀、槍（ヴェール）</p>
-      <p class="row"><strong>キーワード（梵）:</strong> yuddha, mayūra（マユーラ）, vel（ヴェール）</p>
-      <p class="row"><strong>逸話:</strong> 悪魔タラカを討つために生まれたとされる。南インドで篤く信仰。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="iast">Gaṇeśa（Gaṇapati, Vināyaka）</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>障害除去（ヴィグネーシュヴァラ） — Vighneśvara</li>
+        <li>始まり（プラーランバ） — prārambha</li>
+        <li>知恵（ブッディ） — buddhi</li>
+        <li>学問（ヴィディヤー） — vidyā</li>
+        <li>繁栄（サムリッディ） — samṛddhi</li>
+        <li>成功（シッディ） — siddhi</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 何事もはじめに祈られる神。鼠を乗物とする。祭礼ガネーシュ・チャトゥルティが有名。</p>
     </div>
   </article>
 
   <!-- Indra -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Indra_on_Airavata_Angkor_Wat_0917.jpg" alt="Indra on Airavata" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Indra_on_Airavata_Angkor_Wat_0917.jpg" alt="Indra on Airavata" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">インドラ</p>
       <p class="iast">Indra</p>
-      <p class="row"><strong>キーワード（日）:</strong> 雷・王権、雷霆ヴァジュラ、白象アイラーヴァタ</p>
-      <p class="row"><strong>キーワード（梵）:</strong> vajra, Airāvata（アイラーヴァタ）</p>
-      <p class="row"><strong>逸話:</strong> 古ヴェーダ期の主神。金剛杵ヴァジュラを武器とし、象に騎乗する形象で表される。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>雷霆（ヴァジュラ） — vajra</li>
+        <li>王権（ラージャ） — rāja</li>
+        <li>戦勝（ヴィジャヤ） — vijaya</li>
+        <li>白象（アイラーヴァタ） — Airāvata</li>
+        <li>天界（スヴァルガ） — svarga</li>
+        <li>雨の恵み（ヴァルシャ） — varṣa</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 古ヴェーダ期の主神。雷霆ヴァジュラを操り、白象アイラーヴァタに騎乗する。</p>
     </div>
   </article>
 
   <!-- Agni -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Agni_18th_century_miniature.jpg" alt="Agni on goat" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Agni_18th_century_miniature.jpg" alt="Agni on goat" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">アグニ</p>
       <p class="iast">Agni</p>
-      <p class="row"><strong>キーワード（日）:</strong> 火・供犠の使者</p>
-      <p class="row"><strong>キーワード（梵）:</strong> yajña, agni（アグニ）</p>
-      <p class="row"><strong>逸話:</strong> 供物を神々へ運ぶ使者とされ、ヤジュニャの中心。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>火（アグニ） — agni</li>
+        <li>供犠（ヤジュニャ） — yajña</li>
+        <li>祭火（アーハヴァニーヤ） — āhavanīya</li>
+        <li>使者（ドゥータ） — dūta</li>
+        <li>光（ジョーティス） — jyotis</li>
+        <li>浄化（シュッディ） — śuddhi</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 供物を神々に届ける炎の神。ヴェーダ祭祀の中心。</p>
     </div>
   </article>
 
   <!-- Surya -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Surya_riding_on_7_horses_chariot.jpg" alt="Surya on chariot" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Surya_riding_on_7_horses_chariot.jpg" alt="Surya on chariot" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">スーリヤ</p>
       <p class="iast">Sūrya</p>
-      <p class="row"><strong>キーワード（日）:</strong> 太陽神、七頭の馬の戦車</p>
-      <p class="row"><strong>キーワード（梵）:</strong> Āditya, ratha（ラタ）</p>
-      <p class="row"><strong>逸話:</strong> 日輪の神。七頭の馬が牽く戦車で天空を巡る姿で表される。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>太陽（スーリヤ） — sūrya</li>
+        <li>光明（プラカーシャ） — prakāśa</li>
+        <li>七頭の馬（サプタ・アシュヴァ） — sapta-aśva</li>
+        <li>日車（ラタ） — ratha</li>
+        <li>時間（カーラ） — kāla</li>
+        <li>生命力（プラーナ） — prāṇa</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 七頭の馬が牽く戦車に乗り、毎日天空を横断する太陽神。</p>
     </div>
   </article>
 
   <!-- Yama -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yama_on_buffalo.jpg" alt="Yama on buffalo" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yama_on_buffalo.jpg" alt="Yama on buffalo" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ヤマ</p>
       <p class="iast">Yama</p>
-      <p class="row"><strong>キーワード（日）:</strong> 死者の王、南の守護</p>
-      <p class="row"><strong>キーワード（梵）:</strong> Dharmarāja, pāśa（パーシャ）</p>
-      <p class="row"><strong>逸話:</strong> 最初の死者として冥界の王となり、魂の裁きを司る。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>死者の王（ヤマ） — yama</li>
+        <li>法の守護（ダルマラージャ） — Dharmarāja</li>
+        <li>縄（パーシャ） — pāśa</li>
+        <li>南方の守護（ダクシナ・ディクパーラ） — dakṣiṇadikpāla</li>
+        <li>冥界（ナラカ） — naraka</li>
+        <li>刑罰（ダンダ） — daṇḍa</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 最初の死者とされ、死者の魂を裁く冥界の王。</p>
     </div>
   </article>
 
   <!-- Varuna -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Varunadeva.jpg" alt="Varuna on Makara" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Varunadeva.jpg" alt="Varuna on Makara" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ヴァルナ</p>
       <p class="iast">Varuṇa</p>
-      <p class="row"><strong>キーワード（日）:</strong> 水・誓約・秩序</p>
-      <p class="row"><strong>キーワード（梵）:</strong> ṛta, pāśa（パーシャ）</p>
-      <p class="row"><strong>逸話:</strong> 海の神。乗物はマカラ（鰐）。法と誓約の守護者。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>水の神（ヴァルナ） — varuṇa</li>
+        <li>誓約（サパタ） — sapatha</li>
+        <li>宇宙秩序（リタ） — ṛta</li>
+        <li>海（サムドラ） — samudra</li>
+        <li>網／縄（パーシャ） — pāśa</li>
+        <li>真理（サティヤ） — satya</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 誓約と秩序を守る水の神。マカラに騎乗する姿で表される。</p>
     </div>
   </article>
 
   <!-- Vayu -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vayu%2C_the_god_of_wind.jpg" alt="Vayu, wind god" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vayu%2C_the_god_of_wind.jpg" alt="Vayu, wind god" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ヴァーユ</p>
       <p class="iast">Vāyu</p>
-      <p class="row"><strong>キーワード（日）:</strong> 風、生命息（プラーナ）</p>
-      <p class="row"><strong>キーワード（梵）:</strong> prāṇa, vāyu（ヴァーユ）</p>
-      <p class="row"><strong>逸話:</strong> 風の神。ハヌマーンの父とする伝承もある。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>風（ヴァーユ） — vāyu</li>
+        <li>生命息（プラーナ） — prāṇa</li>
+        <li>動力（ヴェーガ） — vega</li>
+        <li>自由（スヴァタントラ） — svatantra</li>
+        <li>速さ（シーグラ） — śīghra</li>
+        <li>大気（ヴァータ） — vāta</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 風の神。『ラーマーヤナ』ではハヌマーンの父とされる。</p>
     </div>
   </article>
 
   <!-- Hanuman -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aragonda_Hanuman_Sanjeevani.JPG" alt="Hanuman with Sanjeevani mountain" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aragonda_Hanuman_Sanjeevani.JPG" alt="Hanuman with Sanjeevani mountain" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ハヌマーン</p>
       <p class="iast">Hanumān</p>
-      <p class="row"><strong>キーワード（日）:</strong> 献身・怪力・飛翔</p>
-      <p class="row"><strong>キーワード（梵）:</strong> bhakti, bala（バラ）</p>
-      <p class="row"><strong>逸話:</strong> 『ラーマーヤナ』でシーター捜索と救援に尽力。薬草山サンジーヴァニーを担ぐ逸話で著名。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>献身（バクティ） — bhakti</li>
+        <li>怪力（バラ） — bala</li>
+        <li>飛躍（ランガナ） — laṅghana</li>
+        <li>忠誠（バクタ） — bhakta</li>
+        <li>勇気（ヴィーラ） — vīra</li>
+        <li>知恵（プラジュニャー） — prajñā</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 『ラーマーヤナ』でシーター捜索と救援に尽力。サンジーヴァニー山を担いだ逸話で著名。</p>
     </div>
   </article>
 
   <!-- Krishna -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Krishna_with_cow.jpg" alt="Krishna with cow and flute" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Krishna_with_cow.jpg" alt="Krishna with cow and flute" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">クリシュナ</p>
       <p class="iast">Kṛṣṇa</p>
-      <p class="row"><strong>キーワード（日）:</strong> 慈愛・遊戯（リーラー）、笛</p>
-      <p class="row"><strong>キーワード（梵）:</strong> līlā, bhakti（バクティ）</p>
-      <p class="row"><strong>逸話:</strong> ヴィシュヌの化身。ギーターの説法者で、牧童期は笛と孔雀羽で表される。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>遊戯（リーラー） — līlā</li>
+        <li>愛（プレーマ） — prema</li>
+        <li>笛（ヴェーヌ） — veṇu</li>
+        <li>牧童（ゴーパ） — gopa</li>
+        <li>信愛（バクティ） — bhakti</li>
+        <li>戦車の御者（サーラティ） — sārathi</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> ヴィシュヌの化身。『バガヴァッド・ギーター』の説法者。牧童期は笛を吹く姿で有名。</p>
     </div>
   </article>
 
   <!-- Rama -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rama%2C_Sita%2C_Lakshmana_and_Hanuman_in_the_forest..jpg" alt="Rama, Sita, Lakshmana and Hanuman" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rama%2C_Sita%2C_Lakshmana_and_Hanuman_in_the_forest..jpg" alt="Rama, Sita, Lakshmana and Hanuman" onclick="expandImage(this.src)"/></div>
     <div class="content">
       <p class="name">ラーマ</p>
       <p class="iast">Rāma</p>
-      <p class="row"><strong>キーワード（日）:</strong> 理想王・正義、弓術</p>
-      <p class="row"><strong>キーワード（梵）:</strong> dharma, dhanuṣ（ダヌシュ）</p>
-      <p class="row"><strong>逸話:</strong> 『ラーマーヤナ』の英雄で、王道を体現するヴィシュヌの化身。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>理想王（マリヤーダー・プルショッタマ） — maryādā-puruṣottama</li>
+        <li>正義（ダルマ） — dharma</li>
+        <li>弓（ダヌシュ） — dhanuṣ</li>
+        <li>勇敢（ヴィーラ） — vīra</li>
+        <li>貞節（パティヴラタ） — pativratā</li>
+        <li>追放（ヴァナヴァーサ） — vanavāsa</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 『ラーマーヤナ』の英雄で、理想的な王の姿を体現するヴィシュヌの化身。</p>
     </div>
   </article>
 
   <!-- Ganga -->
   <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Devi_Painting.jpg" alt="Goddess Ganga on makara" /></div>
+    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Devi_Painting.jpg" alt="Goddess Ganga on makara" onclick="expandImage(this.src)"/></div>
     <div class="content">
-      <p class="name">ガンガー（ガンジス女神）</p>
+      <p class="name">ガンガー</p>
       <p class="iast">Gaṅgā</p>
-      <p class="row"><strong>キーワード（日）:</strong> 聖河・浄化</p>
-      <p class="row"><strong>キーワード（梵）:</strong> tīrtha, pavitra（パヴィトラ）</p>
-      <p class="row"><strong>逸話:</strong> 天界から地上に降下した聖河の人格神。シヴァの髪で勢いが和らげられた伝承で知られる。</p>
-      <p class="cap">画像出典: Wikimedia Commons</p>
+      <p class="row"><strong>キーワード（日／梵）:</strong></p>
+      <ul>
+        <li>聖河（ガンガー） — gaṅgā</li>
+        <li>浄化（パヴィトラ） — pavitra</li>
+        <li>聖地（ティールタ） — tīrtha</li>
+        <li>豊饒（プシュティ） — puṣṭi</li>
+        <li>神聖（ディーヴィヤ） — divya</li>
+        <li>下降（アヴァタラナ） — avataraṇa</li>
+      </ul>
+      <p class="row"><strong>逸話:</strong> 天界から地上に降下した聖河の人格神。シヴァの髪で勢いを和らげられたと伝えられる。</p>
     </div>
   </article>
 
 </section>
 
 <footer>
-  本ページは参照用の簡易ギャラリーです。学術的記述の基礎情報は Encyclopaedia Britannica 等の標準参考資料に基づきます。画像は各ファイルのクレジット・ライセンスに従って使用し、出典は本文メッセージで提示しています。
+  画像はWikimedia Commonsのクレジット・ライセンスに従っています。
 </footer>
 </body>
 </html>
