@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>神々診断｜Yes/Noでわかるインドの神タイプ</title>
+<meta name="description" content="はい／いいえで進むだけ。あなたに近いインドの神タイプを診断。" />
+<style>
+  :root{
+    --bg:#0b0c10; --panel:#111827; --muted:#9aa6b2; --text:#e6e6e6; --brand:#60a5fa; --line:#1f2937; --accent:#22c55e; --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",Arial,sans-serif;
+  }
+  header{
+    position:sticky; top:0; z-index:10;
+    background:linear-gradient(135deg,#0f172a,#111827);
+    border-bottom:1px solid var(--line);
+    padding:14px 16px;
+  }
+  header h1{font-size:18px; margin:0}
+  header p{margin:4px 0 0; color:var(--muted); font-size:12px}
+  main{max-width:720px; margin:0 auto; padding:16px}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:18px; box-shadow:0 10px 24px rgba(0,0,0,.25);
+  }
+  .qno{display:inline-block; font-weight:700; color:#cbd5e1; letter-spacing:.04em; margin-bottom:6px;}
+  .question{font-size:20px; line-height:1.5; margin:6px 0 14px;}
+  .btns{display:grid; gap:10px; grid-template-columns:1fr 1fr;}
+  .btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    height:56px; border-radius:14px; border:1px solid var(--line);
+    background:#0f172a; color:var(--text); font-size:18px; font-weight:700;
+  }
+  .btn:active{transform:scale(.99)}
+  .btn.yes{background:#0f2a16; border-color:#113322}
+  .btn.no{background:#2a0f11; border-color:#331113}
+  .btn.yes .dot{background:var(--accent)} .btn.no .dot{background:var(--danger)}
+  .dot{width:10px; height:10px; border-radius:9999px}
+  .ctrl{display:flex; gap:8px; margin-top:14px;}
+  .small{height:42px; font-size:14px; flex:1; border-radius:12px; border:1px solid var(--line); background:#0f172a; color:#d1d5db}
+  .small:active{transform:scale(.99)}
+  .progress{margin:14px 0 0; height:6px; background:#0f172a; border:1px solid var(--line); border-radius:999px; overflow:hidden}
+  .bar{height:100%; width:0; background:linear-gradient(90deg,#60a5fa,#34d399)}
+  .result{
+    display:grid; gap:14px; grid-template-columns:100px 1fr; align-items:start;
+  }
+  .result img{width:100%; height:100px; object-fit:cover; border-radius:12px; border:1px solid var(--line); background:#0f172a; cursor:zoom-in}
+  .name{font-size:22px; font-weight:800; margin:0}
+  .iast{font-size:13px; color:#b6c2d6; margin:2px 0 10px}
+  ul.kw{margin:8px 0 0 18px; padding:0}
+  ul.kw li{margin:4px 0; line-height:1.5}
+  .hint{color:var(--muted); font-size:12px; margin-top:2px}
+  .links{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+  .pill{padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#0f172a; font-size:13px; color:#d1d5db; text-decoration:none}
+  footer{color:var(--muted); font-size:12px; text-align:center; padding:24px 16px}
+  @media (max-width:560px){
+    .result{grid-template-columns:1fr}
+    .result img{width:100%; height:180px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>神々診断（Yes/No）</h1>
+  <p>質問に「はい／いいえ」で答えると、あなたに近いインドの神タイプが分かります。</p>
+</header>
+
+<main>
+  <section id="panel" class="card" aria-live="polite"></section>
+  <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+  <div class="ctrl">
+    <button id="backBtn" class="small" type="button">戻る</button>
+    <button id="restartBtn" class="small" type="button">はじめから</button>
+  </div>
+  <p class="hint">※ 結果画面から画像をタップすると拡大表示します。</p>
+  <div class="links">
+    <!-- 既存ギャラリーのURLに置き換えてください -->
+    <a class="pill" href="./index.html">ギャラリーを見る</a>
+  </div>
+</main>
+
+<footer>© 神々診断 | 画像はWikimedia Commonsへのリンクを使用</footer>
+
+<script>
+/* ===== データ：18柱（名前・IAST・キーワード・画像） ===== */
+const DEITIES = {
+  vishnu: {
+    jp:"ヴィシュヌ", iast:"Viṣṇu（Nārāyaṇa, Hari）",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Vishnu_riding_Garuda.jpg",
+    kw:[
+      "維持・保護（スティティ） — sthiti",
+      "世界秩序（ダルマ） — dharma",
+      "化身（アヴァターラ） — avatāra",
+      "至高の存在（ナーラーヤナ） — Nārāyaṇa",
+      "慈悲・恩寵（アヌグラハ） — anugraha",
+      "宇宙の支え（ハリ） — Hari",
+    ]
+  },
+  shiva: {
+    jp:"シヴァ（ナタラージャ）", iast:"Śiva / Naṭarāja",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Nataraja%2C_Tamil_Nadu%2C_India%2C_Chola_dynasty%2C_1000s_AD%2C_bronze_-_Dallas_Museum_of_Art_-_DSC05064.jpg",
+    kw:[
+      "破壊と再生（サンハーラ） — saṃhāra",
+      "宇宙舞踏（タンダヴァ） — tāṇḍava",
+      "第三の目（トリネートラ） — trinetra",
+      "苦行（タパス） — tapas",
+      "創造と破壊の統合（ヨーガ） — yoga",
+      "シヴァ・リンガ崇拝（リンガ） — liṅga",
+    ]
+  },
+  brahma: {
+    jp:"ブラフマー", iast:"Brahmā",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Brahma_Statue_in_Prambanan.jpg",
+    kw:[
+      "創造神（スリシュティ） — sṛṣṭi",
+      "四つの顔（チャトゥルムカ） — caturmukha",
+      "ヴェーダの保持者（ヴェーダ） — Veda",
+      "宇宙卵（ヒラニヤガルバ） — hiraṇyagarbha",
+      "時間の始まり（カーラ） — kāla"
+    ]
+  },
+  lakshmi: {
+    jp:"ラクシュミー", iast:"Lakṣmī（Śrī）",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Lakshmi_Lustrated_by_Elephants_%28Gaja-Lakshmi%29_LACMA_M.74.40.1_%281_of_5%29.jpg",
+    kw:[
+      "富と繁栄（ダナ） — dhana",
+      "吉祥（シュリー） — śrī",
+      "幸運（サウバーハギャ） — saubhāgya",
+      "権勢（アイシュヴァリヤ） — aiśvarya",
+      "安寧（クシェーマ） — kṣema",
+      "光輝（テージャス） — tejas",
+    ]
+  },
+  sarasvati: {
+    jp:"サラスヴァティー", iast:"Sarasvatī",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Goddess_Saraswati_holding_a_veena_03.jpg",
+    kw:[
+      "学問（ヴィディヤー） — vidyā",
+      "言語（ヴァーク） — vāk",
+      "音楽（ヴィーナー） — vīṇā",
+      "芸術（カラー） — kalā",
+      "智慧（プラジュニャー） — prajñā",
+      "清浄（シュッチ） — śuci",
+    ]
+  },
+  durga: {
+    jp:"ドゥルガー", iast:"Durgā / Mahiṣāsuramardinī",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Durga_-_Mahishasurmardini.jpg",
+    kw:[
+      "悪魔討伐（アスラ・ヴァダ） — asura-vadha",
+      "力（シャクティ） — śakti",
+      "勝利（ヴィジャヤ） — vijaya",
+      "母性（アンバ） — ambā",
+      "守護（ラクシャー） — rakṣā",
+      "獅子騎乗（シンハヴァーヒニー） — siṃhavāhinī",
+    ]
+  },
+  kali: {
+    jp:"カーリー", iast:"Kālī",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Kali_by_Raja_Ravi_Varma.jpg",
+    kw:[
+      "時（カーラ） — kāla",
+      "死（ムリトゥ） — mṛtyu",
+      "破壊（ヴィナーシャ） — vināśa",
+      "力（シャクティ） — śakti",
+      "恐怖（バヤ） — bhaya",
+      "解脱（モークシャ） — mokṣa",
+    ]
+  },
+  ganesha: {
+    jp:"ガネーシャ", iast:"Gaṇeśa（Gaṇapati, Vināyaka）",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Ganesha_with_mouse01.jpg",
+    kw:[
+      "障害除去（ヴィグネーシュヴァラ） — Vighneśvara",
+      "始まり（プラーランバ） — prārambha",
+      "知恵（ブッディ） — buddhi",
+      "学問（ヴィディヤー） — vidyā",
+      "繁栄（サムリッディ） — samṛddhi",
+      "成功（シッディ） — siddhi",
+    ]
+  },
+  indra: {
+    jp:"インドラ", iast:"Indra",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Indra_on_Airavata_Angkor_Wat_0917.jpg",
+    kw:[
+      "雷霆（ヴァジュラ） — vajra",
+      "王権（ラージャ） — rāja",
+      "戦勝（ヴィジャヤ） — vijaya",
+      "白象（アイラーヴァタ） — Airāvata",
+      "天界（スヴァルガ） — svarga",
+      "雨（ヴァルシャ） — varṣa",
+    ]
+  },
+  agni: {
+    jp:"アグニ", iast:"Agni",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Agni_18th_century_miniature.jpg",
+    kw:[
+      "火（アグニ） — agni",
+      "供犠（ヤジュニャ） — yajña",
+      "祭火（アーハヴァニーヤ） — āhavanīya",
+      "使者（ドゥータ） — dūta",
+      "光（ジョーティス） — jyotis",
+      "浄化（シュッディ） — śuddhi",
+    ]
+  },
+  surya: {
+    jp:"スーリヤ", iast:"Sūrya",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Surya_riding_on_7_horses_chariot.jpg",
+    kw:[
+      "太陽（スーリヤ） — sūrya",
+      "光明（プラカーシャ） — prakāśa",
+      "七頭の馬（サプタ・アシュヴァ） — sapta-aśva",
+      "日車（ラタ） — ratha",
+      "時間（カーラ） — kāla",
+      "生命力（プラーナ） — prāṇa",
+    ]
+  },
+  yama: {
+    jp:"ヤマ", iast:"Yama",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Yama_on_buffalo.jpg",
+    kw:[
+      "死者の王（ヤマ） — yama",
+      "法の守護（ダルマラージャ） — Dharmarāja",
+      "縄（パーシャ） — pāśa",
+      "南方守護（ダクシナ・ディクパーラ） — dakṣiṇadikpāla",
+      "冥界（ナラカ） — naraka",
+      "刑罰（ダンダ） — daṇḍa",
+    ]
+  },
+  varuna: {
+    jp:"ヴァルナ", iast:"Varuṇa",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Varunadeva.jpg",
+    kw:[
+      "水の神（ヴァルナ） — varuṇa",
+      "誓約（サパタ） — sapatha",
+      "宇宙秩序（リタ） — ṛta",
+      "海（サムドラ） — samudra",
+      "網／縄（パーシャ） — pāśa",
+      "真理（サティヤ） — satya",
+    ]
+  },
+  vayu: {
+    jp:"ヴァーユ", iast:"Vāyu",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Vayu%2C_the_god_of_wind.jpg",
+    kw:[
+      "風（ヴァーユ） — vāyu",
+      "生命息（プラーナ） — prāṇa",
+      "動力（ヴェーガ） — vega",
+      "自由（スヴァタントラ） — svatantra",
+      "速さ（シーグラ） — śīghra",
+      "大気（ヴァータ） — vāta",
+    ]
+  },
+  hanuman: {
+    jp:"ハヌマーン", iast:"Hanumān",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Aragonda_Hanuman_Sanjeevani.JPG",
+    kw:[
+      "献身（バクティ） — bhakti",
+      "怪力（バラ） — bala",
+      "飛躍（ラングハナ） — laṅghana",
+      "忠誠（バクタ） — bhakta",
+      "勇気（ヴィーラ） — vīra",
+      "知恵（プラジュニャー） — prajñā",
+    ]
+  },
+  krishna: {
+    jp:"クリシュナ", iast:"Kṛṣṇa",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Krishna_with_cow.jpg",
+    kw:[
+      "遊戯（リーラー） — līlā",
+      "愛（プレーマ） — prema",
+      "笛（ヴェーヌ） — veṇu",
+      "牧童（ゴーパ） — gopa",
+      "信愛（バクティ） — bhakti",
+      "御者（サーラティ） — sārathi",
+    ]
+  },
+  rama: {
+    jp:"ラーマ", iast:"Rāma",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Rama%2C_Sita%2C_Lakshmana_and_Hanuman_in_the_forest..jpg",
+    kw:[
+      "理想王（マリヤーダー・プルショッタマ） — maryādā-puruṣottama",
+      "正義（ダルマ） — dharma",
+      "弓（ダヌシュ） — dhanuṣ",
+      "勇敢（ヴィーラ） — vīra",
+      "貞節（パティヴラタ） — pativratā",
+      "追放（ヴァナヴァーサ） — vanavāsa",
+    ]
+  },
+  ganga: {
+    jp:"ガンガー", iast:"Gaṅgā",
+    img:"https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Devi_Painting.jpg",
+    kw:[
+      "聖河（ガンガー） — gaṅgā",
+      "浄化（パヴィトラ） — pavitra",
+      "聖地（ティールタ） — tīrtha",
+      "豊饒（プシュティ） — puṣṭi",
+      "神聖（ディーヴィヤ） — divya",
+      "下降（アヴァタラナ） — avataraṇa",
+    ]
+  },
+};
+
+/* ===== Yes/No ルーティング（Q1〜Q18 → 結果） ===== */
+const TREE = {
+  Q1:{ text:"安定・維持・全体調和を最優先しますか？", yes:{type:"end", deity:"vishnu"}, no:"Q2" },
+  Q2:{ text:"変革のための“破壊”を厭いませんか？", yes:{type:"end", deity:"shiva"}, no:"Q3" },
+  Q3:{ text:"知・学問・言語・芸術で物事を解きたいですか？", yes:{type:"end", deity:"sarasvati"}, no:"Q4" },
+  Q4:{ text:"豊かさ・繁栄、場を明るくすることに価値を置きますか？", yes:{type:"end", deity:"lakshmi"}, no:"Q5" },
+  Q5:{ text:"障害を取り除き、はじまりを開く役目を担いたいですか？", yes:{type:"end", deity:"ganesha"}, no:"Q6" },
+  Q6:{ text:"献身・機動力・突破力で支えるタイプですか？", yes:{type:"end", deity:"hanuman"}, no:"Q7" },
+  Q7:{ text:"愛嬌やカリスマで人を惹きつけ導きますか？", yes:{type:"end", deity:"krishna"}, no:"Q8" },
+  Q8:{ text:"規範と誠実さで模範を示すタイプですか？", yes:{type:"end", deity:"rama"}, no:"Q9" },
+  Q9:{ text:"自然要素（火・水・風・太陽・河）に強く惹かれますか？", yes:"Q10", no:"Q14" },
+  Q10:{ text:"太陽のイメージ（光・時間・活力）が核ですか？", yes:{type:"end", deity:"surya"}, no:"Q11" },
+  Q11:{ text:"火（浄化・儀礼・変容）が核ですか？", yes:{type:"end", deity:"agni"}, no:"Q12" },
+  Q12:{ text:"風や大気（呼吸・自由）が核ですか？", yes:{type:"end", deity:"vayu"}, no:"Q13" },
+  Q13:{ text:"海・誓約・秩序（水域の守護）に惹かれますか？", yes:{type:"end", deity:"varuna"}, no:{type:"end", deity:"ganga"} },
+  Q14:{ text:"戦いと王権（指揮・雷・突破）を体現しますか？", yes:{type:"end", deity:"indra"}, no:"Q15" },
+  Q15:{ text:"正義の怒りで悪を滅する女神性に親和しますか？", yes:"Q16", no:"Q17" },
+  Q16:{ text:"守護する母性と英雄性の両立が核ですか？", yes:{type:"end", deity:"durga"}, no:{type:"end", deity:"kali"} },
+  Q17:{ text:"死と裁き、有限性の自覚を担う役目に惹かれますか？", yes:{type:"end", deity:"yama"}, no:"Q18" },
+  Q18:{ text:"世界の始まりや創造の起点に関心が強いですか？", yes:{type:"end", deity:"brahma"}, no:{type:"end", deity:"vishnu"} },
+};
+
+const START = "Q1";
+
+/* ===== 画面制御 ===== */
+const panel = document.getElementById("panel");
+const bar = document.getElementById("bar");
+const backBtn = document.getElementById("backBtn");
+const restartBtn = document.getElementById("restartBtn");
+
+let stack = []; // 過去のQ履歴（戻る用）
+let current = START;
+
+function progress(){
+  // 仮の全長を Q18 までの節目で100%に近似
+  const totalSteps = 12;              // 平均的な到達深度（体感値）
+  const pct = Math.min(100, Math.round((stack.length/totalSteps)*100));
+  bar.style.width = pct + "%";
+}
+
+function renderQuestion(id){
+  const node = TREE[id];
+  current = id;
+  const qIdx = Object.keys(TREE).indexOf(id)+1;
+  panel.innerHTML = `
+    <div class="qno">Q${qIdx}</div>
+    <div class="question">${node.text}</div>
+    <div class="btns">
+      <button class="btn yes" type="button" aria-label="はい"><span class="dot"></span>はい</button>
+      <button class="btn no" type="button" aria-label="いいえ"><span class="dot"></span>いいえ</button>
+    </div>
+  `;
+  panel.querySelector(".btn.yes").onclick = ()=> go("yes");
+  panel.querySelector(".btn.no").onclick = ()=> go("no");
+  progress();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function renderResult(key){
+  const d = DEITIES[key];
+  const kw = d.kw.map(x=>`<li>${x}</li>`).join("");
+  panel.innerHTML = `
+    <div class="result">
+      <img src="${d.img}" alt="${d.jp}の画像" onclick="window.open('${d.img}','_blank')">
+      <div>
+        <p class="name">あなたは <strong>${d.jp}</strong> タイプ！</p>
+        <p class="iast">${d.iast}</p>
+        <ul class="kw">${kw}</ul>
+        <div class="links" style="margin-top:10px">
+          <a class="pill" href="./index.html">ギャラリーで詳しく見る</a>
+          <a class="pill" href="${d.img}" target="_blank" rel="noopener">画像を拡大</a>
+        </div>
+      </div>
+    </div>
+  `;
+  progress();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function go(ans){
+  const node = TREE[current];
+  const next = node[ans];
+  stack.push(current);
+  if(typeof next === "string"){
+    renderQuestion(next);
+  }else if(next && next.type === "end"){
+    renderResult(next.deity);
+  }else{
+    // フォールバック（万一未定義）
+    renderQuestion(START);
+  }
+}
+
+backBtn.onclick = ()=>{
+  if(!stack.length) return;
+  const prev = stack.pop();
+  renderQuestion(prev);
+};
+restartBtn.onclick = ()=>{
+  stack = [];
+  renderQuestion(START);
+};
+
+/* ハッシュで結果直リンク（例: diagnostic.html#result=krishna） */
+function bootFromHash(){
+  const m = location.hash.match(/result=([a-z]+)/i);
+  if(m && DEITIES[m[1]]){ renderResult(m[1]); return; }
+  renderQuestion(START);
+}
+bootFromHash();
+
+/* 履歴に応じて進捗更新（戻る操作など） */
+window.addEventListener("hashchange", bootFromHash);
+</script>
+</body>
+</html>
