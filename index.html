@@ -3,11 +3,19 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>インドの神々ギャラリー</title>
+<title>インドの神々ギャラリー＋診断（心理テスト版）</title>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", Arial, sans-serif; margin: 0; background:#0b0c10; color:#e6e6e6; }
-  header { padding: 28px 20px; text-align:center; background: linear-gradient(135deg,#111827,#1f2937); box-shadow: 0 2px 12px rgba(0,0,0,.25); }
-  header h1 { margin: 0; font-size: 28px; }
+  :root{
+    --bg:#0b0c10; --panel:#111827; --muted:#9aa6b2; --text:#e6e6e6; --brand:#60a5fa; --line:#1f2937; 
+    --yes:#22c55e; --no:#ef4444; --bar1:#60a5fa; --bar2:#34d399; --bar3:#f59e0b;
+  }
+  *{box-sizing:border-box}
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); }
+  header { padding: 24px 16px; text-align:center; background: linear-gradient(135deg,#111827,#1f2937); box-shadow: 0 2px 12px rgba(0,0,0,.25); position:sticky; top:0; z-index:5; }
+  header h1 { margin: 0; font-size: 24px; }
+  header p { color:#9aa6b2; margin:6px 0 0; font-size: 13px; }
+  .pill-btn{ margin-top:10px; padding:10px 14px; border-radius:999px; border:1px solid var(--line); background:#0f172a; color:#e6e6e6; cursor:pointer;}
+  .pill-btn:active{ transform:scale(.98); }
   .grid { display:grid; gap:18px; padding:20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
   .card { background:#111827; border:1px solid #1f2937; border-radius:16px; overflow:hidden; box-shadow: 0 6px 16px rgba(0,0,0,.25);} 
   .imgwrap { aspect-ratio: 4/3; background:#0f172a; display:flex; align-items:center; justify-content:center; overflow:hidden; }
@@ -18,366 +26,376 @@
   .row { margin: 6px 0; font-size:14px; line-height:1.55; }
   .row strong { color:#d1d5db; font-weight:600; }
   footer { padding: 18px 20px 28px; color:#9aa6b2; font-size:12px; text-align:center; }
+  /* 強調 */
+  @keyframes glowPulse { 0%{box-shadow:0 0 0 rgba(99,102,241,.0)} 50%{box-shadow:0 0 24px rgba(99,102,241,.35)} 100%{box-shadow:0 0 0 rgba(99,102,241,.0)} }
+  .card.glow{ outline:2px solid #6366f1; animation:glowPulse 2s ease-in-out 2; }
+
+  /* ===== 診断モーダル（心理テスト版） ===== */
+  #diagOverlay{ position:fixed; inset:0; background:rgba(0,0,0,.55); display:none; align-items:center; justify-content:center; z-index:1000; }
+  #diagModal{ width:min(760px,94vw); max-height:92vh; overflow:auto; background:#111827; border:1px solid #1f2937; border-radius:16px; padding:16px; box-shadow:0 20px 40px rgba(0,0,0,.4); }
+  #diagClose{ position:sticky; top:0; right:0; float:right; margin:-6px -6px 6px 0; background:#2b3240; border:1px solid #1f2937; color:#e6e6e6; border-radius:10px; padding:8px 10px; cursor:pointer; }
+  #diagTitle{ margin:6px 0 10px; font-size:18px; }
+  .test-note{ color:#9aa6b2; font-size:12px; margin:-2px 0 10px; }
+  .qwrap{ background:#0f172a; border:1px solid var(--line); border-radius:12px; padding:12px; }
+  .qno{ font-weight:700; color:#cbd5e1; letter-spacing:.04em; margin-bottom:6px; }
+  .qtxt{ font-size:18px; line-height:1.6; margin:4px 0 12px; }
+  .ansgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .ansbtn{ display:flex; align-items:center; justify-content:center; gap:8px; height:54px; border-radius:12px; border:1px solid var(--line); background:#0b1325; color:#e6e6e6; font-size:18px; font-weight:800; }
+  .ansbtn:active{ transform:scale(.99) }
+  .yes{ background:#0f2a16; border-color:#113322 } .no{ background:#2a0f11; border-color:#331113 }
+  .dot{ width:10px; height:10px; border-radius:9999px; } .yes .dot{ background:var(--yes) } .no .dot{ background:var(--no) }
+  .ctrl{ display:flex; gap:8px; margin-top:12px; }
+  .small{ height:40px; font-size:14px; flex:1; border-radius:10px; border:1px solid var(--line); background:#0f172a; color:#d1d5db }
+  .progress{ margin:10px 0 0; height:8px; background:#0f172a; border:1px solid var(--line); border-radius:999px; overflow:hidden }
+  .bar{ height:100%; width:0; background:linear-gradient(90deg,var(--bar1),var(--bar2)); }
+
+  .result{ display:grid; gap:12px; grid-template-columns:1fr; }
+  .leader{ background:#0f172a; border:1px solid var(--line); border-radius:12px; padding:12px; }
+  .rname{ font-size:20px; font-weight:800; margin:0 0 4px; }
+  .riast{ font-size:12px; color:#b6c2d6; margin:0 0 10px; }
+  .kw{ margin:6px 0 0 18px; }
+  .bars{ display:grid; gap:8px; margin-top:10px; }
+  .barrow{ display:grid; grid-template-columns:120px 1fr 42px; gap:8px; align-items:center; }
+  .barbox{ height:8px; border-radius:999px; background:#0b1325; border:1px solid var(--line); overflow:hidden; }
+  .barin{ height:100%; width:0; background:linear-gradient(90deg,var(--bar1),var(--bar3)); }
+  .links{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .pill{ padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#0f172a; font-size:13px; color:#d1d5db; text-decoration:none }
+  @media (max-width:560px){ .ansbtn{height:56px; font-size:18px} }
 </style>
 <script>
-function expandImage(src) {
-  const win = window.open();
-  win.document.write('<img src="'+src+'" style="width:100%">');
-}
+function expandImage(src) { const win = window.open(); win.document.write('<img src="'+src+'" style="width:100%">'); }
 </script>
 </head>
 <body>
 <header>
   <h1>インドの神々ギャラリー</h1>
+  <p>カードをタップで拡大。右のボタンから直感的な心理テスト版の診断ができます。</p>
+  <button id="openDiagBtn" class="pill-btn">診断する（心理テスト版）</button>
 </header>
 
 <section class="grid">
-
-  <!-- Vishnu -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vishnu_riding_Garuda.jpg" alt="Vishnu riding Garuda" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ヴィシュヌ</p>
-      <p class="iast">Viṣṇu（Nārāyaṇa, Hari）</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>維持・保護（スティティ） — sthiti</li>
-        <li>世界秩序（ダルマ） — dharma</li>
-        <li>化身（アヴァターラ） — avatāra</li>
-        <li>至高の存在（ナーラーヤナ） — Nārāyaṇa</li>
-        <li>慈悲・恩寵（アヌグラハ） — anugraha</li>
-        <li>宇宙の支え（ハリ） — Hari</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 秩序を守るために様々なアヴァターラとして降臨。ラーマやクリシュナもその化身。</p>
-    </div>
-  </article>
-
-  <!-- Shiva (Nataraja) -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Nataraja%2C_Tamil_Nadu%2C_India%2C_Chola_dynasty%2C_1000s_AD%2C_bronze_-_Dallas_Museum_of_Art_-_DSC05064.jpg" alt="Shiva as Nataraja" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">シヴァ（ナタラージャ）</p>
-      <p class="iast">Śiva / Naṭarāja</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>破壊と再生（サンハーラ） — saṃhāra</li>
-        <li>宇宙舞踏（タンダヴァ） — tāṇḍava</li>
-        <li>第三の目（トリネートラ） — trinetra</li>
-        <li>苦行（タパス） — tapas</li>
-        <li>創造と破壊の統合（ヨーガ） — yoga</li>
-        <li>シヴァ・リンガ崇拝（リンガ） — liṅga</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 宇宙の循環を舞踏で体現する神。破壊と再生を同時に司る。</p>
-    </div>
-  </article>
-
-  <!-- Brahma -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Brahma_Statue_in_Prambanan.jpg" alt="Brahma four-faced statue" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ブラフマー</p>
-      <p class="iast">Brahmā</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>創造神（スリシュティ） — sṛṣṭi</li>
-        <li>四つの顔（チャトゥルムカ） — caturmukha</li>
-        <li>ヴェーダの保持者（ヴェーダ） — Veda</li>
-        <li>宇宙卵からの誕生（ヒラニヤガルバ） — hiraṇyagarbha</li>
-        <li>時間の始まり（カーラ） — kāla</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 宇宙を創造する神。ヴィシュヌとシヴァとともにトリムールティを構成する。</p>
-    </div>
-  </article>
-
-  <!-- Lakshmi -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Lakshmi_Lustrated_by_Elephants_%28Gaja-Lakshmi%29_LACMA_M.74.40.1_%281_of_5%29.jpg" alt="Gaja-Lakshmi" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ラクシュミー</p>
-      <p class="iast">Lakṣmī（Śrī）</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>富と繁栄（ダナ） — dhana</li>
-        <li>吉祥（シュリー） — śrī</li>
-        <li>幸運（サウバーハギャ） — saubhāgya</li>
-        <li>権勢（アイシュヴァリヤ） — aiśvarya</li>
-        <li>安寧（クシェーマ） — kṣema</li>
-        <li>光輝（テージャス） — tejas</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> ヴィシュヌの配偶神として知られ、豊かさと幸運を授ける女神。</p>
-    </div>
-  </article>
-
-  <!-- Sarasvati -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Goddess_Saraswati_holding_a_veena_03.jpg" alt="Sarasvati with veena" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">サラスヴァティー</p>
-      <p class="iast">Sarasvatī</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>学問（ヴィディヤー） — vidyā</li>
-        <li>言語（ヴァーク） — vāk</li>
-        <li>音楽（ヴィーナー） — vīṇā</li>
-        <li>芸術（カラー） — kalā</li>
-        <li>智慧（プラジュニャー） — prajñā</li>
-        <li>清浄（シュッチ） — śuci</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 元は聖河の人格神。のち学芸と言語の女神として信仰される。</p>
-    </div>
-  </article>
-
-  <!-- Durga -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Durga_-_Mahishasurmardini.jpg" alt="Durga slaying Mahishasura" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ドゥルガー（マヒシャースラマルディニー）</p>
-      <p class="iast">Durgā / Mahiṣāsuramardinī</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>悪魔討伐（アスラ・ヴァダ） — asura-vadha</li>
-        <li>力（シャクティ） — śakti</li>
-        <li>勝利（ヴィジャヤ） — vijaya</li>
-        <li>母性（アンバ） — ambā</li>
-        <li>守護（ラクシャー） — rakṣā</li>
-        <li>獅子騎乗（シンハヴァーヒニー） — siṃhavāhinī</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 水牛魔王マヒシャースラを討伐する英雄女神。</p>
-    </div>
-  </article>
-
-  <!-- Kali -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kali_by_Raja_Ravi_Varma.jpg" alt="Kali by Raja Ravi Varma" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">カーリー</p>
-      <p class="iast">Kālī</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>時（カーラ） — kāla</li>
-        <li>死（ムリトゥ） — mṛtyu</li>
-        <li>破壊（ヴィナーシャ） — vināśa</li>
-        <li>力（シャクティ） — śakti</li>
-        <li>恐怖（バヤ） — bhaya</li>
-        <li>解脱（モークシャ） — mokṣa</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 忿怒相で悪を滅ぼす。しばしばシヴァの上に立つ像で表される。</p>
-    </div>
-  </article>
-
-  <!-- Ganesha -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganesha_with_mouse01.jpg" alt="Ganesha with mouse" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ガネーシャ</p>
-      <p class="iast">Gaṇeśa（Gaṇapati, Vināyaka）</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>障害除去（ヴィグネーシュヴァラ） — Vighneśvara</li>
-        <li>始まり（プラーランバ） — prārambha</li>
-        <li>知恵（ブッディ） — buddhi</li>
-        <li>学問（ヴィディヤー） — vidyā</li>
-        <li>繁栄（サムリッディ） — samṛddhi</li>
-        <li>成功（シッディ） — siddhi</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 何事もはじめに祈られる神。鼠を乗物とする。祭礼ガネーシュ・チャトゥルティが有名。</p>
-    </div>
-  </article>
-
-  <!-- Indra -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Indra_on_Airavata_Angkor_Wat_0917.jpg" alt="Indra on Airavata" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">インドラ</p>
-      <p class="iast">Indra</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>雷霆（ヴァジュラ） — vajra</li>
-        <li>王権（ラージャ） — rāja</li>
-        <li>戦勝（ヴィジャヤ） — vijaya</li>
-        <li>白象（アイラーヴァタ） — Airāvata</li>
-        <li>天界（スヴァルガ） — svarga</li>
-        <li>雨の恵み（ヴァルシャ） — varṣa</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 古ヴェーダ期の主神。雷霆ヴァジュラを操り、白象アイラーヴァタに騎乗する。</p>
-    </div>
-  </article>
-
-  <!-- Agni -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Agni_18th_century_miniature.jpg" alt="Agni on goat" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">アグニ</p>
-      <p class="iast">Agni</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>火（アグニ） — agni</li>
-        <li>供犠（ヤジュニャ） — yajña</li>
-        <li>祭火（アーハヴァニーヤ） — āhavanīya</li>
-        <li>使者（ドゥータ） — dūta</li>
-        <li>光（ジョーティス） — jyotis</li>
-        <li>浄化（シュッディ） — śuddhi</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 供物を神々に届ける炎の神。ヴェーダ祭祀の中心。</p>
-    </div>
-  </article>
-
-  <!-- Surya -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Surya_riding_on_7_horses_chariot.jpg" alt="Surya on chariot" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">スーリヤ</p>
-      <p class="iast">Sūrya</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>太陽（スーリヤ） — sūrya</li>
-        <li>光明（プラカーシャ） — prakāśa</li>
-        <li>七頭の馬（サプタ・アシュヴァ） — sapta-aśva</li>
-        <li>日車（ラタ） — ratha</li>
-        <li>時間（カーラ） — kāla</li>
-        <li>生命力（プラーナ） — prāṇa</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 七頭の馬が牽く戦車に乗り、毎日天空を横断する太陽神。</p>
-    </div>
-  </article>
-
-  <!-- Yama -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yama_on_buffalo.jpg" alt="Yama on buffalo" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ヤマ</p>
-      <p class="iast">Yama</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>死者の王（ヤマ） — yama</li>
-        <li>法の守護（ダルマラージャ） — Dharmarāja</li>
-        <li>縄（パーシャ） — pāśa</li>
-        <li>南方の守護（ダクシナ・ディクパーラ） — dakṣiṇadikpāla</li>
-        <li>冥界（ナラカ） — naraka</li>
-        <li>刑罰（ダンダ） — daṇḍa</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 最初の死者とされ、死者の魂を裁く冥界の王。</p>
-    </div>
-  </article>
-
-  <!-- Varuna -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Varunadeva.jpg" alt="Varuna on Makara" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ヴァルナ</p>
-      <p class="iast">Varuṇa</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>水の神（ヴァルナ） — varuṇa</li>
-        <li>誓約（サパタ） — sapatha</li>
-        <li>宇宙秩序（リタ） — ṛta</li>
-        <li>海（サムドラ） — samudra</li>
-        <li>網／縄（パーシャ） — pāśa</li>
-        <li>真理（サティヤ） — satya</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 誓約と秩序を守る水の神。マカラに騎乗する姿で表される。</p>
-    </div>
-  </article>
-
-  <!-- Vayu -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vayu%2C_the_god_of_wind.jpg" alt="Vayu, wind god" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ヴァーユ</p>
-      <p class="iast">Vāyu</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>風（ヴァーユ） — vāyu</li>
-        <li>生命息（プラーナ） — prāṇa</li>
-        <li>動力（ヴェーガ） — vega</li>
-        <li>自由（スヴァタントラ） — svatantra</li>
-        <li>速さ（シーグラ） — śīghra</li>
-        <li>大気（ヴァータ） — vāta</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 風の神。『ラーマーヤナ』ではハヌマーンの父とされる。</p>
-    </div>
-  </article>
-
-  <!-- Hanuman -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aragonda_Hanuman_Sanjeevani.JPG" alt="Hanuman with Sanjeevani mountain" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ハヌマーン</p>
-      <p class="iast">Hanumān</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>献身（バクティ） — bhakti</li>
-        <li>怪力（バラ） — bala</li>
-        <li>飛躍（ランガナ） — laṅghana</li>
-        <li>忠誠（バクタ） — bhakta</li>
-        <li>勇気（ヴィーラ） — vīra</li>
-        <li>知恵（プラジュニャー） — prajñā</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 『ラーマーヤナ』でシーター捜索と救援に尽力。サンジーヴァニー山を担いだ逸話で著名。</p>
-    </div>
-  </article>
-
-  <!-- Krishna -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Krishna_with_cow.jpg" alt="Krishna with cow and flute" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">クリシュナ</p>
-      <p class="iast">Kṛṣṇa</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>遊戯（リーラー） — līlā</li>
-        <li>愛（プレーマ） — prema</li>
-        <li>笛（ヴェーヌ） — veṇu</li>
-        <li>牧童（ゴーパ） — gopa</li>
-        <li>信愛（バクティ） — bhakti</li>
-        <li>戦車の御者（サーラティ） — sārathi</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> ヴィシュヌの化身。『バガヴァッド・ギーター』の説法者。牧童期は笛を吹く姿で有名。</p>
-    </div>
-  </article>
-
-  <!-- Rama -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rama%2C_Sita%2C_Lakshmana_and_Hanuman_in_the_forest..jpg" alt="Rama, Sita, Lakshmana and Hanuman" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ラーマ</p>
-      <p class="iast">Rāma</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>理想王（マリヤーダー・プルショッタマ） — maryādā-puruṣottama</li>
-        <li>正義（ダルマ） — dharma</li>
-        <li>弓（ダヌシュ） — dhanuṣ</li>
-        <li>勇敢（ヴィーラ） — vīra</li>
-        <li>貞節（パティヴラタ） — pativratā</li>
-        <li>追放（ヴァナヴァーサ） — vanavāsa</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 『ラーマーヤナ』の英雄で、理想的な王の姿を体現するヴィシュヌの化身。</p>
-    </div>
-  </article>
-
-  <!-- Ganga -->
-  <article class="card">
-    <div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Devi_Painting.jpg" alt="Goddess Ganga on makara" onclick="expandImage(this.src)"/></div>
-    <div class="content">
-      <p class="name">ガンガー</p>
-      <p class="iast">Gaṅgā</p>
-      <p class="row"><strong>キーワード（日／梵）:</strong></p>
-      <ul>
-        <li>聖河（ガンガー） — gaṅgā</li>
-        <li>浄化（パヴィトラ） — pavitra</li>
-        <li>聖地（ティールタ） — tīrtha</li>
-        <li>豊饒（プシュティ） — puṣṭi</li>
-        <li>神聖（ディーヴィヤ） — divya</li>
-        <li>下降（アヴァタラナ） — avataraṇa</li>
-      </ul>
-      <p class="row"><strong>逸話:</strong> 天界から地上に降下した聖河の人格神。シヴァの髪で勢いを和らげられたと伝えられる。</p>
-    </div>
-  </article>
-
+  <!-- 18 deities cards (names must match jp field for highlight) -->
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vishnu_riding_Garuda.jpg" alt="Vishnu" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ヴィシュヌ</p><p class="iast">Viṣṇu（Nārāyaṇa, Hari）</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>維持・保護（スティティ） — sthiti</li><li>世界秩序（ダルマ） — dharma</li><li>化身（アヴァターラ） — avatāra</li><li>至高の存在（ナーラーヤナ） — Nārāyaṇa</li><li>慈悲・恩寵（アヌグラハ） — anugraha</li><li>宇宙の支え（ハリ） — Hari</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Nataraja%2C_Tamil_Nadu%2C_India%2C_Chola_dynasty%2C_1000s_AD%2C_bronze_-_Dallas_Museum_of_Art_-_DSC05064.jpg" alt="Shiva" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">シヴァ</p><p class="iast">Śiva / Naṭarāja</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>破壊と再生（サンハーラ） — saṃhāra</li><li>宇宙舞踏（タンダヴァ） — tāṇḍava</li><li>第三の目（トリネートラ） — trinetra</li><li>苦行（タパス） — tapas</li><li>創造と破壊の統合（ヨーガ） — yoga</li><li>シヴァ・リンガ崇拝（リンガ） — liṅga</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Brahma_Statue_in_Prambanan.jpg" alt="Brahma" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ブラフマー</p><p class="iast">Brahmā</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>創造神（スリシュティ） — sṛṣṭi</li><li>四つの顔（チャトゥルムカ） — caturmukha</li><li>ヴェーダの保持者（ヴェーダ） — Veda</li><li>宇宙卵（ヒラニヤガルバ） — hiraṇyagarbha</li><li>時間の始まり（カーラ） — kāla</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Lakshmi_Lustrated_by_Elephants_%28Gaja-Lakshmi%29_LACMA_M.74.40.1_%281_of_5%29.jpg" alt="Lakshmi" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ラクシュミー</p><p class="iast">Lakṣmī（Śrī）</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>富と繁栄（ダナ） — dhana</li><li>吉祥（シュリー） — śrī</li><li>幸運（サウバーハギャ） — saubhāgya</li><li>権勢（アイシュヴァリヤ） — aiśvarya</li><li>安寧（クシェーマ） — kṣema</li><li>光輝（テージャス） — tejas</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Goddess_Saraswati_holding_a_veena_03.jpg" alt="Sarasvati" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">サラスヴァティー</p><p class="iast">Sarasvatī</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>学問（ヴィディヤー） — vidyā</li><li>言語（ヴァーク） — vāk</li><li>音楽（ヴィーナー） — vīṇā</li><li>芸術（カラー） — kalā</li><li>智慧（プラジュニャー） — prajñā</li><li>清浄（シュッチ） — śuci</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Durga_-_Mahishasurmardini.jpg" alt="Durga" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ドゥルガー</p><p class="iast">Durgā / Mahiṣāsuramardinī</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>悪魔討伐（アスラ・ヴァダ） — asura-vadha</li><li>力（シャクティ） — śakti</li><li>勝利（ヴィジャヤ） — vijaya</li><li>母性（アンバ） — ambā</li><li>守護（ラクシャー） — rakṣā</li><li>獅子騎乗（シンハヴァーヒニー） — siṃhavāhinī</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kali_by_Raja_Ravi_Varma.jpg" alt="Kali" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">カーリー</p><p class="iast">Kālī</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>時（カーラ） — kāla</li><li>死（ムリトゥ） — mṛtyu</li><li>破壊（ヴィナーシャ） — vināśa</li><li>力（シャクティ） — śakti</li><li>恐怖（バヤ） — bhaya</li><li>解脱（モークシャ） — mokṣa</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganesha_with_mouse01.jpg" alt="Ganesha" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ガネーシャ</p><p class="iast">Gaṇeśa（Gaṇapati, Vināyaka）</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>障害除去（ヴィグネーシュヴァラ） — Vighneśvara</li><li>始まり（プラーランバ） — prārambha</li><li>知恵（ブッディ） — buddhi</li><li>学問（ヴィディヤー） — vidyā</li><li>繁栄（サムリッディ） — samṛddhi</li><li>成功（シッディ） — siddhi</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Indra_on_Airavata_Angkor_Wat_0917.jpg" alt="Indra" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">インドラ</p><p class="iast">Indra</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>雷霆（ヴァジュラ） — vajra</li><li>王権（ラージャ） — rāja</li><li>戦勝（ヴィジャヤ） — vijaya</li><li>白象（アイラーヴァタ） — Airāvata</li><li>天界（スヴァルガ） — svarga</li><li>雨（ヴァルシャ） — varṣa</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Agni_18th_century_miniature.jpg" alt="Agni" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">アグニ</p><p class="iast">Agni</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>火（アグニ） — agni</li><li>供犠（ヤジュニャ） — yajña</li><li>祭火（アーハヴァニーヤ） — āhavanīya</li><li>使者（ドゥータ） — dūta</li><li>光（ジョーティス） — jyotis</li><li>浄化（シュッディ） — śuddhi</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Surya_riding_on_7_horses_chariot.jpg" alt="Surya" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">スーリヤ</p><p class="iast">Sūrya</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>太陽（スーリヤ） — sūrya</li><li>光明（プラカーシャ） — prakāśa</li><li>七頭の馬（サプタ・アシュヴァ） — sapta-aśva</li><li>日車（ラタ） — ratha</li><li>時間（カーラ） — kāla</li><li>生命力（プラーナ） — prāṇa</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yama_on_buffalo.jpg" alt="Yama" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ヤマ</p><p class="iast">Yama</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>死者の王（ヤマ） — yama</li><li>法の守護（ダルマラージャ） — Dharmarāja</li><li>縄（パーシャ） — pāśa</li><li>南方守護（ダクシナ・ディクパーラ） — dakṣiṇadikpāla</li><li>冥界（ナラカ） — naraka</li><li>刑罰（ダンダ） — daṇḍa</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Varunadeva.jpg" alt="Varuna" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ヴァルナ</p><p class="iast">Varuṇa</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>水の神（ヴァルナ） — varuṇa</li><li>誓約（サパタ） — sapatha</li><li>宇宙秩序（リタ） — ṛta</li><li>海（サムドラ） — samudra</li><li>網／縄（パーシャ） — pāśa</li><li>真理（サティヤ） — satya</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vayu%2C_the_god_of_wind.jpg" alt="Vayu" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ヴァーユ</p><p class="iast">Vāyu</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>風（ヴァーユ） — vāyu</li><li>生命息（プラーナ） — prāṇa</li><li>動力（ヴェーガ） — vega</li><li>自由（スヴァタントラ） — svatantra</li><li>速さ（シーグラ） — śīghra</li><li>大気（ヴァータ） — vāta</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aragonda_Hanuman_Sanjeevani.JPG" alt="Hanuman" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ハヌマーン</p><p class="iast">Hanumān</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>献身（バクティ） — bhakti</li><li>怪力（バラ） — bala</li><li>飛躍（ラングハナ） — laṅghana</li><li>忠誠（バクタ） — bhakta</li><li>勇気（ヴィーラ） — vīra</li><li>知恵（プラジュニャー） — prajñā</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Krishna_with_cow.jpg" alt="Krishna" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">クリシュナ</p><p class="iast">Kṛṣṇa</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>遊戯（リーラー） — līlā</li><li>愛（プレーマ） — prema</li><li>笛（ヴェーヌ） — veṇu</li><li>牧童（ゴーパ） — gopa</li><li>信愛（バクティ） — bhakti</li><li>御者（サーラティ） — sārathi</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rama%2C_Sita%2C_Lakshmana_and_Hanuman_in_the_forest..jpg" alt="Rama" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ラーマ</p><p class="iast">Rāma</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>理想王（マリヤーダー・プルショッタマ） — maryādā-puruṣottama</li><li>正義（ダルマ） — dharma</li><li>弓（ダヌシュ） — dhanuṣ</li><li>勇敢（ヴィーラ） — vīra</li><li>貞節（パティヴラタ） — pativratā</li><li>追放（ヴァナヴァーサ） — vanavāsa</li></ul></div></article>
+  <article class="card"><div class="imgwrap"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Devi_Painting.jpg" alt="Ganga" onclick="expandImage(this.src)"/></div><div class="content"><p class="name">ガンガー</p><p class="iast">Gaṅgā</p><p class="row"><strong>キーワード（日／梵）:</strong></p><ul><li>聖河（ガンガー） — gaṅgā</li><li>浄化（パヴィトラ） — pavitra</li><li>聖地（ティールタ） — tīrtha</li><li>豊饒（プシュティ） — puṣṭi</li><li>神聖（ディーヴィヤ） — divya</li><li>下降（アヴァタラナ） — avataraṇa</li></ul></div></article>
 </section>
 
-<footer>
-  画像はWikimedia Commonsのクレジット・ライセンスに従っています。
-</footer>
+<!-- ===== 診断モーダル（心理テスト版） ===== -->
+<div id="diagOverlay" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
+  <div id="diagModal">
+    <button id="diagClose" aria-label="閉じる">✕ 閉じる</button>
+    <h2 id="diagTitle">神々診断（心理テスト版・Yes/No）</h2>
+    <p class="test-note">※ 用語は日常表現のみ。宗教知識がなくても直感で回答してください。これはチームビルディング向けの性格傾向診断であり、医療・採用判断には使いません。</p>
+    <section id="diagPanel" aria-live="polite"></section>
+    <div class="progress" aria-hidden="true"><div class="bar" id="diagBar"></div></div>
+    <div class="ctrl">
+      <button id="diagBack" class="small" type="button">戻る</button>
+      <button id="diagRestart" class="small" type="button">はじめから</button>
+    </div>
+  </div>
+</div>
+
+<footer>画像はWikimedia Commonsのクレジット・ライセンスに従います。</footer>
+
+<script>
+/* ====== 12スケール ====== */
+const SCALES = ["harmony","change","intellect","warmth","initiative","charisma","integrity","justice","energy","authority","freedom","order"];
+
+/* ====== Yes/No質問（36問：各スケール3問、日常表現のみ） ====== */
+const ITEMS = [
+  {s:"harmony", t:"混乱した場では、まず空気を落ち着かせる役割に回りがちだ。"},
+  {s:"harmony", t:"長期的に安定が保たれるよう、地味な調整もいとわない。"},
+  {s:"harmony", t:"物事は「壊すより整える」ほうが得意だ。"},
+
+  {s:"change", t:"古いルールを一度リセットして作り直すのが好きだ。"},
+  {s:"change", t:"混乱を恐れず、必要なら大胆な決断を選ぶ。"},
+  {s:"change", t:"退屈よりも環境を変えることを優先する。"},
+
+  {s:"intellect", t:"新しい概念や言葉を学ぶとワクワクする。"},
+  {s:"intellect", t:"問題は直感よりも情報収集と整理で解くことが多い。"},
+  {s:"intellect", t:"音楽や文章で自分の考えを表現するのが好きだ。"},
+
+  {s:"warmth", t:"周りの雰囲気を明るくすることを大切にしている。"},
+  {s:"warmth", t:"人が喜ぶ顔を見ると自分も満たされる。"},
+  {s:"warmth", t:"継続的に皆が得する仕組みを作るのが好きだ。"},
+
+  {s:"initiative", t:"障害にぶつかると、まず小さく道をこじ開ける。"},
+  {s:"initiative", t:"“最初の一歩”を作ることが得意だ。"},
+  {s:"initiative", t:"難しい依頼でも段取りを考えて前に進める。"},
+
+  {s:"charisma", t:"自然と人が集まってくることが多い。"},
+  {s:"charisma", t:"場の空気を遊び心で変えるのが好きだ。"},
+  {s:"charisma", t:"難しい話も、たとえ話で楽しく伝えられる。"},
+
+  {s:"integrity", t:"約束やルールを守ることを最優先にする。"},
+  {s:"integrity", t:"公平であるために自分にも厳しくできる。"},
+  {s:"integrity", t:"道徳的に正しいと信じる道を選びがちだ。"},
+
+  {s:"justice", t:"目の前の不正には強く立ち向かう。"},
+  {s:"justice", t:"弱い立場の人を守るために矢面に立てる。"},
+  {s:"justice", t:"怒りを原動力に変えて行動できる。"},
+
+  {s:"energy", t:"朝からすぐに動けるタイプだ。"},
+  {s:"energy", t:"体を動かす活動でリフレッシュする。"},
+  {s:"energy", t:"スピード感を大事にする。"},
+
+  {s:"authority", t:"役割が曖昧だと自分が指揮を執りたくなる。"},
+  {s:"authority", t:"責任ある立場で意思決定することに抵抗がない。"},
+  {s:"authority", t:"大きな目標に人をまとめるのが好きだ。"},
+
+  {s:"freedom", t:"細かな指示より、裁量があるほうが力を発揮できる。"},
+  {s:"freedom", t:"突発的なアイデアで動くのが楽しい。"},
+  {s:"freedom", t:"旅や移動に惹かれる。"},
+
+  {s:"order", t:"約束や契約は信頼の土台だと思う。"},
+  {s:"order", t:"ルールは皆にとっての安心の基盤だと感じる。"},
+  {s:"order", t:"身の回りを清潔・整頓すると落ち着く。"},
+];
+
+/* ====== 神ごとの重み（12スケール） ====== */
+const W = {
+  vishnu:     {harmony:1.0, change:0.1, intellect:0.2, warmth:0.4, initiative:0.3, charisma:0.1, integrity:0.6, justice:0.2, energy:0.2, authority:0.2, freedom:0.1, order:0.6},
+  shiva:      {harmony:0.1, change:1.0, intellect:0.2, warmth:0.1, initiative:0.2, charisma:0.2, integrity:0.2, justice:0.4, energy:0.3, authority:0.2, freedom:0.5, order:0.1},
+  brahma:     {harmony:0.3, change:0.3, intellect:0.7, warmth:0.2, initiative:0.4, charisma:0.1, integrity:0.3, justice:0.1, energy:0.2, authority:0.2, freedom:0.3, order:0.3},
+  lakshmi:    {harmony:0.4, change:0.1, intellect:0.2, warmth:1.0, initiative:0.3, charisma:0.3, integrity:0.3, justice:0.2, energy:0.2, authority:0.2, freedom:0.2, order:0.2},
+  sarasvati:  {harmony:0.2, change:0.1, intellect:1.0, warmth:0.2, initiative:0.2, charisma:0.3, integrity:0.3, justice:0.1, energy:0.1, authority:0.1, freedom:0.2, order:0.2},
+  durga:      {harmony:0.3, change:0.3, intellect:0.2, warmth:0.2, initiative:0.4, charisma:0.2, integrity:0.3, justice:1.0, energy:0.4, authority:0.5, freedom:0.2, order:0.3},
+  kali:       {harmony:0.1, change:0.8, intellect:0.2, warmth:0.1, initiative:0.3, charisma:0.2, integrity:0.2, justice:0.9, energy:0.4, authority:0.2, freedom:0.4, order:0.1},
+  ganesha:    {harmony:0.4, change:0.2, intellect:0.3, warmth:0.2, initiative:1.0, charisma:0.2, integrity:0.3, justice:0.2, energy:0.3, authority:0.2, freedom:0.2, order:0.3},
+  indra:      {harmony:0.2, change:0.4, intellect:0.2, warmth:0.2, initiative:0.3, charisma:0.3, integrity:0.3, justice:0.3, energy:0.5, authority:1.0, freedom:0.2, order:0.2},
+  agni:       {harmony:0.2, change:0.5, intellect:0.2, warmth:0.1, initiative:0.4, charisma:0.1, integrity:0.3, justice:0.2, energy:0.6, authority:0.2, freedom:0.2, order:0.2},
+  surya:      {harmony:0.2, change:0.2, intellect:0.2, warmth:0.2, initiative:0.2, charisma:0.2, integrity:0.2, justice:0.2, energy:1.0, authority:0.3, freedom:0.2, order:0.2},
+  yama:       {harmony:0.2, change:0.1, intellect:0.2, warmth:0.1, initiative:0.2, charisma:0.1, integrity:0.6, justice:0.5, energy:0.2, authority:0.3, freedom:0.1, order:0.7},
+  varuna:     {harmony:0.3, change:0.1, intellect:0.2, warmth:0.2, initiative:0.2, charisma:0.1, integrity:0.4, justice:0.3, energy:0.1, authority:0.2, freedom:0.1, order:1.0},
+  vayu:       {harmony:0.1, change:0.5, intellect:0.2, warmth:0.1, initiative:0.2, charisma:0.2, integrity:0.2, justice:0.2, energy:0.4, authority:0.1, freedom:1.0, order:0.1},
+  hanuman:    {harmony:0.3, change:0.2, intellect:0.2, warmth:0.2, initiative:0.7, charisma:0.2, integrity:0.4, justice:0.3, energy:0.6, authority:0.2, freedom:0.2, order:0.2},
+  krishna:    {harmony:0.2, change:0.3, intellect:0.3, warmth:0.5, initiative:0.2, charisma:1.0, integrity:0.2, justice:0.2, energy:0.3, authority:0.2, freedom:0.3, order:0.1},
+  rama:       {harmony:0.4, change:0.1, intellect:0.2, warmth:0.2, initiative:0.2, charisma:0.2, integrity:1.0, justice:0.3, energy:0.2, authority:0.3, freedom:0.1, order:0.4},
+  ganga:      {harmony:0.4, change:0.1, intellect:0.2, warmth:0.5, initiative:0.2, charisma:0.1, integrity:0.3, justice:0.2, energy:0.2, authority:0.1, freedom:0.2, order:0.6},
+};
+
+/* 表示用データ */
+const DEITIES = {
+  vishnu:{jp:"ヴィシュヌ", iast:"Viṣṇu（Nārāyaṇa, Hari）", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Vishnu_riding_Garuda.jpg", kw:["維持・保護（スティティ） — sthiti","世界秩序（ダルマ） — dharma","化身（アヴァターラ） — avatāra","至高の存在（ナーラーヤナ） — Nārāyaṇa"]},
+  shiva:{jp:"シヴァ", iast:"Śiva / Naṭarāja", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Shiva_Nataraja%2C_Tamil_Nadu%2C_India%2C_Chola_dynasty%2C_1000s_AD%2C_bronze_-_Dallas_Museum_of_Art_-_DSC05064.jpg", kw:["破壊と再生（サンハーラ） — saṃhāra","宇宙舞踏（タンダヴァ） — tāṇḍava"]},
+  brahma:{jp:"ブラフマー", iast:"Brahmā", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Brahma_Statue_in_Prambanan.jpg", kw:["創造神（スリシュティ） — sṛṣṭi","宇宙卵（ヒラニヤガルバ） — hiraṇyagarbha"]},
+  lakshmi:{jp:"ラクシュミー", iast:"Lakṣmī（Śrī）", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Lakshmi_Lustrated_by_Elephants_%28Gaja-Lakshmi%29_LACMA_M.74.40.1_%281_of_5%29.jpg", kw:["富（ダナ） — dhana","吉祥（シュリー） — śrī"]},
+  sarasvati:{jp:"サラスヴァティー", iast:"Sarasvatī", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Goddess_Saraswati_holding_a_veena_03.jpg", kw:["学問（ヴィディヤー） — vidyā","言語（ヴァーク） — vāk"]},
+  durga:{jp:"ドゥルガー", iast:"Durgā", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Durga_-_Mahishasurmardini.jpg", kw:["守護（ラクシャー） — rakṣā","勝利（ヴィジャヤ） — vijaya"]},
+  kali:{jp:"カーリー", iast:"Kālī", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Kali_by_Raja_Ravi_Varma.jpg", kw:["時（カーラ） — kāla","破壊（ヴィナーシャ） — vināśa"]},
+  ganesha:{jp:"ガネーシャ", iast:"Gaṇeśa", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Ganesha_with_mouse01.jpg", kw:["障害除去 — Vighneśvara","始まり — prārambha"]},
+  indra:{jp:"インドラ", iast:"Indra", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Indra_on_Airavata_Angkor_Wat_0917.jpg", kw:["雷霆 — vajra","王権 — rāja"]},
+  agni:{jp:"アグニ", iast:"Agni", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Agni_18th_century_miniature.jpg", kw:["火 — agni","供犠 — yajña"]},
+  surya:{jp:"スーリヤ", iast:"Sūrya", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Surya_riding_on_7_horses_chariot.jpg", kw:["太陽 — sūrya","時間 — kāla"]},
+  yama:{jp:"ヤマ", iast:"Yama", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Yama_on_buffalo.jpg", kw:["死者の王 — yama","法の守護 — Dharmarāja"]},
+  varuna:{jp:"ヴァルナ", iast:"Varuṇa", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Varunadeva.jpg", kw:["秩序 — ṛta","誓約 — sapatha"]},
+  vayu:{jp:"ヴァーユ", iast:"Vāyu", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Vayu%2C_the_god_of_wind.jpg", kw:["風 — vāyu","自由 — svatantra"]},
+  hanuman:{jp:"ハヌマーン", iast:"Hanumān", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Aragonda_Hanuman_Sanjeevani.JPG", kw:["献身 — bhakti","飛躍 — laṅghana"]},
+  krishna:{jp:"クリシュナ", iast:"Kṛṣṇa", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Krishna_with_cow.jpg", kw:["遊戯 — līlā","カリスマ"]},
+  rama:{jp:"ラーマ", iast:"Rāma", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Rama%2C_Sita%2C_Lakshmana_and_Hanuman_in_the_forest..jpg", kw:["理想王 — maryādā-puruṣottama","正義 — dharma"]},
+  ganga:{jp:"ガンガー", iast:"Gaṅgā", img:"https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Devi_Painting.jpg", kw:["浄化 — pavitra","聖地 — tīrtha"]},
+};
+
+/* ====== テスト状態 ====== */
+let order = [];      // 出題順（シャッフル）
+let idx = 0;         // 現在のインデックス
+let score = {};      // スケール→yes数
+let seen = [];       // 回答履歴（{s, yes:0/1}）
+
+const openBtn = document.getElementById("openDiagBtn");
+const overlay = document.getElementById("diagOverlay");
+const closeBtn = document.getElementById("diagClose");
+const panel = document.getElementById("diagPanel");
+const bar = document.getElementById("diagBar");
+const backBtn = document.getElementById("diagBack");
+const restartBtn = document.getElementById("diagRestart");
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function init(){
+  order = shuffle([...Array(ITEMS.length).keys()]);
+  idx = 0; score = {}; seen = [];
+  SCALES.forEach(s=> score[s]=0);
+}
+
+function openModal(){ init(); overlay.style.display = "flex"; document.body.style.overflow = "hidden"; render(); }
+function closeModal(){ overlay.style.display = "none"; document.body.style.overflow = ""; }
+openBtn && (openBtn.onclick = openModal);
+closeBtn && (closeBtn.onclick = closeModal);
+overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeModal(); });
+
+function render(){
+  const total = ITEMS.length;
+  if(idx >= total){ return showResult(); }
+  const qIndex = order[idx];
+  const item = ITEMS[qIndex];
+  panel.innerHTML = `
+    <div class="qwrap">
+      <div class="qno">質問 ${idx+1} / ${total}</div>
+      <div class="qtxt">${item.t}</div>
+      <div class="ansgrid">
+        <button class="ansbtn yes" type="button"><span class="dot"></span>はい</button>
+        <button class="ansbtn no" type="button"><span class="dot"></span>いいえ</button>
+      </div>
+    </div>`;
+  panel.querySelector(".yes").onclick = ()=> answer(1);
+  panel.querySelector(".no").onclick = ()=> answer(0);
+  bar.style.width = Math.round((idx/total)*100) + "%";
+}
+
+function answer(yes){
+  const qIndex = order[idx];
+  const item = ITEMS[qIndex];
+  seen.push({s:item.s, yes});
+  if(yes) score[item.s] += 1;
+  idx++;
+  render();
+}
+
+backBtn.onclick = ()=>{
+  if(idx===0 || seen.length===0) return;
+  const last = seen.pop();
+  if(last.yes) score[last.s] -= 1;
+  idx--;
+  render();
+};
+restartBtn.onclick = ()=>{ init(); render(); };
+
+/* ====== 結果計算 ====== */
+function normalizeScaleScores(){
+  // 各スケール3問なので /3 で0..1に正規化
+  const norm = {};
+  SCALES.forEach(s=> norm[s] = score[s] / 3);
+  return norm;
+}
+
+function deityFit(norm, deityKey){
+  const w = W[deityKey];
+  let raw = 0, wsum = 0;
+  for(const s of SCALES){
+    const ws = (w[s]||0);
+    raw += (norm[s]||0) * ws;
+    wsum += ws;
+  }
+  return wsum ? (raw / wsum) : 0; // 0..1
+}
+
+function showResult(){
+  const norm = normalizeScaleScores();
+  // スコア算出
+  const results = Object.keys(W).map(k=>({key:k, fit: deityFit(norm,k)}));
+  results.sort((a,b)=> b.fit - a.fit);
+  const top3 = results.slice(0,3);
+
+  // 詳細説明：トップの要因（寄与が大きい上位3スケール）
+  const top = top3[0];
+  const contrib = [];
+  const wTop = W[top.key];
+  for(const s of SCALES){
+    const ws = (wTop[s]||0);
+    contrib.push({s, v:(norm[s]||0)*ws});
+  }
+  contrib.sort((a,b)=> b.v-a.v);
+  const topFactors = contrib.slice(0,3).map(x=> scaleLabel(x.s));
+
+  // 上位3のバーUI
+  const barRows = top3.map((r,i)=>{
+    const d = DEITIES[r.key];
+    const pct = Math.round(r.fit*100);
+    return `
+      <div class="barrow">
+        <div>${d.jp}</div>
+        <div class="barbox"><div class="barin" style="width:${pct}%"></div></div>
+        <div>${pct}%</div>
+      </div>`;
+  }).join("");
+
+  // リーダー表示
+  const d0 = DEITIES[top.key];
+  const kwlist = (d0.kw||[]).map(x=>`<li>${x}</li>`).join("");
+  panel.innerHTML = `
+    <div class="result">
+      <div class="leader">
+        <p class="rname">あなたは <strong>${d0.jp}</strong> タイプ</p>
+        <p class="riast">${d0.iast}</p>
+        <div style="display:grid; gap:12px; grid-template-columns:100px 1fr; align-items:start;">
+          <img src="${d0.img}" alt="${d0.jp}" style="width:100%; height:96px; object-fit:cover; border-radius:12px; border:1px solid var(--line); background:#0f172a; cursor:zoom-in" onclick="window.open('${d0.img}','_blank')">
+          <div>
+            <ul class="kw">${kwlist}</ul>
+            <p class="test-note">主な要因：${topFactors.join("、")}</p>
+            <div class="links">
+              <button class="small" type="button" onclick="highlightCard('${d0.jp}')">カードをハイライト</button>
+              <button class="small" type="button" onclick="scrollToCard('${d0.jp}')">カードへスクロール</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="leader">
+        <p style="margin:0 0 8px; font-weight:700;">上位タイプ</p>
+        <div class="bars">${barRows}</div>
+      </div>
+      <div class="leader">
+        <p style="margin:0 0 8px; font-weight:700;">あなたの傾向（スケール）</p>
+        <div class="bars">
+          ${SCALES.map(s=>{
+            const pct = Math.round((norm[s]||0)*100);
+            return `<div class="barrow"><div>${scaleLabel(s)}</div><div class="barbox"><div class="barin" style="width:${pct}%"></div></div><div>${pct}%</div></div>`;
+          }).join("")}
+        </div>
+      </div>
+    </div>
+  `;
+  bar.style.width = "100%";
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function scaleLabel(k){
+  switch(k){
+    case "harmony": return "調和・安定";
+    case "change": return "変革・挑戦";
+    case "intellect": return "知性・言語";
+    case "warmth": return "温かさ・繁栄";
+    case "initiative": return "障害突破・初動";
+    case "charisma": return "カリスマ・遊び心";
+    case "integrity": return "規範・誠実";
+    case "justice": return "正義・守護";
+    case "energy": return "活力・スピード";
+    case "authority": return "権威・リーダー";
+    case "freedom": return "自由・独立";
+    case "order": return "秩序・約束";
+    default: return k;
+  }
+}
+
+/* ====== ギャラリー連携 ====== */
+function findCardByName(jpName){
+  const names = Array.from(document.querySelectorAll(".card .name"));
+  return names.find(n => (n.textContent || "").trim().startsWith(jpName))?.closest(".card") || null;
+}
+function scrollToCard(jpName){
+  const card = findCardByName(jpName);
+  if(card){ closeModal(); setTimeout(()=>{ card.scrollIntoView({behavior:"smooth", block:"center"}); }, 150); }
+  else { alert("該当カードが見つかりませんでした。"); }
+}
+function highlightCard(jpName){
+  const card = findCardByName(jpName);
+  if(card){ card.classList.add("glow"); setTimeout(()=> card.classList.remove("glow"), 3500); }
+  else { alert("該当カードが見つかりませんでした。"); }
+}
+</script>
 </body>
 </html>
